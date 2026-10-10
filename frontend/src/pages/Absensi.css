@@ -1,0 +1,474 @@
+.absensi-page {
+    min-height: 100vh;
+    display: flex;
+    background: #f5f8fc;
+    color: #18345d;
+}
+
+.absensi-sidebar {
+    width: 265px;
+    min-height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid #e5ebf3;
+    padding: 22px 14px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.absensi-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 14px 30px;
+}
+
+.absensi-brand-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #e7f0ff;
+    color: #1769e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.absensi-brand h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #173766;
+}
+
+.absensi-brand span {
+    font-size: 12px;
+    color: #8a9ab5;
+}
+
+.absensi-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.absensi-menu button,
+.absensi-logout {
+    border: none;
+    background: transparent;
+    height: 48px;
+    padding: 0 14px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #587096;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.absensi-menu button:hover {
+    background: #f3f7fd;
+}
+
+.absensi-menu button.active {
+    background: #e9f2ff;
+    color: #1268e8;
+    font-weight: 600;
+}
+
+.absensi-logout {
+    margin-top: auto;
+}
+
+.absensi-main {
+    margin-left: 265px;
+    width: calc(100% - 265px);
+    min-height: 100vh;
+}
+
+.absensi-topbar {
+    height: 66px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5ebf3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+}
+
+.absensi-menu-button {
+    border: none;
+    background: transparent;
+    color: #587096;
+    cursor: pointer;
+}
+
+.absensi-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.absensi-notification {
+    position: relative;
+    border: none;
+    background: transparent;
+    color: #587096;
+    cursor: pointer;
+}
+
+.absensi-notification span {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ef4444;
+}
+
+.absensi-admin {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #334d73;
+    font-size: 14px;
+}
+
+.absensi-admin-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #e6f0ff;
+    color: #1670ed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.absensi-content {
+    padding: 28px;
+}
+
+.absensi-welcome {
+    min-height: 145px;
+    background: linear-gradient(100deg, #edf6ff, #e6f1ff);
+    border: 1px solid #dceafa;
+    border-radius: 16px;
+    padding: 25px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.absensi-welcome-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.absensi-welcome-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #dcecff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 29px;
+}
+
+.absensi-welcome h1 {
+    margin: 0 0 8px;
+    font-size: 29px;
+    color: #153562;
+}
+
+.absensi-welcome p {
+    margin: 0;
+    max-width: 650px;
+    line-height: 1.7;
+    font-size: 14px;
+    color: #6380a7;
+}
+
+.absensi-welcome-image {
+    width: 150px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6da4f5;
+    opacity: 0.8;
+}
+
+.absensi-card {
+    margin-top: 22px;
+    background: #ffffff;
+    border: 1px solid #e3eaf3;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 5px 18px rgba(40, 72, 110, 0.04);
+}
+
+.absensi-filter {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.absensi-filter-item {
+    width: 275px;
+    height: 48px;
+    border: 1px solid #dce6f2;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    color: #607a9f;
+    background: #ffffff;
+}
+
+.absensi-filter-item input,
+.absensi-filter-item select {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #526d94;
+    font-size: 14px;
+}
+
+.absensi-save {
+    margin-left: auto;
+    height: 48px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 9px;
+    background: #1769e8;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
+}
+
+.absensi-save:hover {
+    background: #0e5dd4;
+}
+
+.absensi-title {
+    margin-top: 27px;
+    margin-bottom: 16px;
+}
+
+.absensi-title h2 {
+    margin: 0 0 5px;
+    font-size: 20px;
+    color: #18365f;
+}
+
+.absensi-title p {
+    margin: 0;
+    color: #91a4c0;
+    font-size: 13px;
+}
+
+.absensi-date-info {
+    display: none;
+}
+
+.absensi-table-wrapper {
+    overflow-x: auto;
+}
+
+.absensi-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.absensi-table thead {
+    background: #f4f8fc;
+}
+
+.absensi-table th {
+    padding: 16px 14px;
+    color: #5b7192;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.absensi-table td {
+    padding: 14px;
+    border-bottom: 1px solid #edf1f6;
+    font-size: 14px;
+    color: #486485;
+}
+
+.absensi-table tbody tr:hover {
+    background: #fbfdff;
+}
+
+.absensi-student {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    color: #294d78;
+    font-weight: 500;
+}
+
+.absensi-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e8f1ff;
+    color: #1769e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.status-select {
+    width: 215px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #dce6f2;
+    border-radius: 8px;
+    outline: none;
+    background: #ffffff;
+    color: #466283;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.status-select:focus {
+    border-color: #78aef5;
+}
+
+.keterangan-input {
+    width: 100%;
+    min-width: 220px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #dce6f2;
+    border-radius: 8px;
+    outline: none;
+    color: #466283;
+    font-size: 13px;
+}
+
+.keterangan-input:focus {
+    border-color: #78aef5;
+}
+
+.keterangan-input::placeholder {
+    color: #a2b2c8;
+}
+
+.absensi-loading {
+    text-align: center !important;
+    padding: 40px !important;
+    color: #8fa1ba !important;
+}
+
+.absensi-footer {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #8ba0bc;
+    font-size: 13px;
+}
+
+.absensi-pagination {
+    display: flex;
+    gap: 7px;
+}
+
+.absensi-pagination button {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #dce6f2;
+    background: #ffffff;
+    border-radius: 8px;
+    color: #7c94b4;
+    cursor: pointer;
+}
+
+.absensi-pagination button.active {
+    background: #1769e8;
+    border-color: #1769e8;
+    color: #ffffff;
+}
+
+.absensi-pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 1000px) {
+    .absensi-sidebar {
+        width: 220px;
+    }
+
+    .absensi-main {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+    }
+
+    .absensi-filter {
+        flex-wrap: wrap;
+    }
+
+    .absensi-save {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 700px) {
+    .absensi-sidebar {
+        display: none;
+    }
+
+    .absensi-main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .absensi-content {
+        padding: 15px;
+    }
+
+    .absensi-welcome {
+        padding: 20px;
+    }
+
+    .absensi-welcome-image {
+        display: none;
+    }
+
+    .absensi-filter-item {
+        width: 100%;
+    }
+
+    .absensi-save {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .absensi-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+}

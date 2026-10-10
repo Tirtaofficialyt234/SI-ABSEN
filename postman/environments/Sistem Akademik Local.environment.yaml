@@ -1,0 +1,10 @@
+name: Sistem Akademik Local
+values:
+  - key: base_url
+    value: 'http://127.0.0.1:8000'
+    enabled: true
+    type: default
+  - key: token
+    value: '4|cuQWaIZsxofC17Xwk0kBJRpE1jNayqBVo0czphqEacb8a65d'
+    enabled: true
+    type: default

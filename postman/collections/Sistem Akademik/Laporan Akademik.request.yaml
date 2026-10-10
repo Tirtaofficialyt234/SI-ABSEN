@@ -1,0 +1,13 @@
+$kind: http-request
+name: Laporan Akademik
+method: GET
+url: '{{base_url}}/api/laporan-akademik'
+order: 2000
+headers:
+  - key: Accept
+    value: application/json
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{token}}'
