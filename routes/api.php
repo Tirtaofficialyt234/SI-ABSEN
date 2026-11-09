@@ -61,6 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
             'store',
         ]);
 
+        Route::get('/absensi', [AbsensiController::class, 'index']);
+
     });
 
     /*

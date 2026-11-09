@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absensi;
+use App\Models\Jadwal;
 use Illuminate\Http\Request;
 
 class AbsensiController extends Controller
@@ -30,5 +31,30 @@ class AbsensiController extends Controller
         }
 
         return response()->json(['message' => 'Absensi tersimpan']);
+    }
+
+
+    public function index(Request $request)
+    {
+        $validated = $request->validate([
+            'jadwal_id' => ['required', 'integer', 'exists:jadwal,id'],
+            'tanggal' => ['required', 'date'],
+        ]);
+
+        $guru = $request->user()->guru;
+
+        abort_unless($guru, 403, 'Akun ini tidak terhubung ke data guru.');
+
+        $jadwal = Jadwal::query()
+            ->whereKey($validated['jadwal_id'])
+            ->where('guru_id', $guru->id)
+            ->firstOrFail();
+
+        return response()->json(
+            Absensi::query()
+                ->where('jadwal_id', $jadwal->id)
+                ->whereDate('tanggal', $validated['tanggal'])
+                ->get(['siswa_kelas_id', 'status'])
+        );
     }
 }

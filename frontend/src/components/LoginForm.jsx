@@ -26,25 +26,24 @@ export default function LoginForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("TOMBOL LOGIN DIKLIK");
-        console.log("Data:", form);
-
         setError("");
         setLoading(true);
 
         try {
             const data = await login(form);
 
-            console.log("TIPE DATA:", typeof data);
-            console.log("DATA.TOKEN:", data.token);
-            console.log("Login berhasil:", data);
+            const role = data.role?.toLowerCase();
+            if (!data.token || !["admin", "guru", "siswa"].includes(role)) {
+                localStorage.removeItem("token");
+                setError("Role akun tidak dikenali.");
+                return;
+            }
+
             localStorage.setItem("token", data.token);
 
-            navigate("/dashboard");
+            navigate(role === "admin" ? "/dashboard" : "/absen-page");
 
         } catch (err) {
-            console.log("ERROR LOGIN:", err);
-
             if (err.response?.status === 401) {
                 setError("Email atau password salah.");
             } else if (err.response?.status === 422) {
