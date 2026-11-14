@@ -6,7 +6,10 @@ import { logout as logoutApi } from "../api/auth";
 import {
     LayoutDashboard,
     Users,
+    School,
     CalendarCheck,
+    CalendarDays,
+    BookOpen,
     GraduationCap,
     LogOut,
     Search,
@@ -101,9 +104,29 @@ export default function Dashboard() {
                         Data Siswa
                     </a>
 
-                    <a className="menu-item" onClick={() => navigate('/absensi')}>
+                    <a className="menu-item" onClick={() => navigate('/guru')}>
+                        <GraduationCap size={20} />
+                        Data Guru
+                    </a>
+
+                    <a className="menu-item" onClick={() => navigate('/kelas')}>
+                        <School size={20} />
+                        Data Kelas
+                    </a>
+
+                    <a className="menu-item" onClick={() => navigate('/jadwal')}>
                         <CalendarCheck size={20} />
-                        Absensi
+                        Jadwal
+                    </a>
+
+                    <a className="menu-item" onClick={() => navigate('/tahun-ajaran')}>
+                        <CalendarDays size={20} />
+                        Tahun Ajaran
+                    </a>
+
+                    <a className="menu-item" onClick={() => navigate('/mapel')}>
+                        <BookOpen size={20} />
+                        Mata Pelajaran
                     </a>
 
                 </nav>

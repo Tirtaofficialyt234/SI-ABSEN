@@ -37,8 +37,9 @@ class SiswaController extends Controller
                 'nis' => $s->nis,
                 'nama' => $s->nama,
                 'kelas' => $kelasAktif?->kelas?->nama_kelas ?? '-',
+                'kelas_id' => $kelasAktif?->kelas_id,
                 'jenis_kelamin' => $s->user?->jenis_kelamin ?? $s->jenis_kelamin ?? '-',
-                'status' => $kelasAktif?->status ?? 'tidak aktif',
+                'status' => $kelasAktif?->status ?? $s->status ?? 'tidak aktif',
             ];
         });
 
@@ -76,6 +77,38 @@ class SiswaController extends Controller
         ]);
 
         return response()->json($siswa, 201);
+    }
+
+    public function show($id)
+    {
+        $siswa = Siswa::with([
+            'user',
+            'kelasAktif.kelas',
+            'kelasAktif.tahunAjaran',
+            'riwayatKelas.kelas',
+            'riwayatKelas.tahunAjaran',
+        ])->find($id);
+
+        if (! $siswa) {
+            return response()->json(['message' => 'Siswa tidak ditemukan'], 404);
+        }
+
+        // Ambil riwayat / rekap kehadiran siswa
+        $siswaKelasIds = $siswa->riwayatKelas->pluck('id');
+        $absensi = \App\Models\Absensi::whereIn('siswa_kelas_id', $siswaKelasIds)->get();
+
+        $rekapAbsensi = [
+            'hadir' => $absensi->where('status', 'hadir')->count(),
+            'izin' => $absensi->where('status', 'izin')->count(),
+            'sakit' => $absensi->where('status', 'sakit')->count(),
+            'alpa' => $absensi->where('status', 'alpa')->count(),
+            'total' => $absensi->count(),
+        ];
+
+        return response()->json([
+            'siswa' => $siswa,
+            'rekap_absensi' => $rekapAbsensi,
+        ]);
     }
 
     public function destroy($id)

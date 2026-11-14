@@ -5,7 +5,11 @@ import AuthUserContext from "./auth/AuthUserContext";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./pages/Dashboard";
 import DataSiswa from "./pages/DataSiswa";
-import Absensi from "./pages/Absensi";
+import DataGuru from "./pages/DataGuru";
+import DataKelas from "./pages/DataKelas";
+import DataJadwal from "./pages/DataJadwal";
+import TahunAjaranPage from "./pages/TahunAjaran";
+import DataMapel from "./pages/DataMapel";
 import AbsenPage from "./pages/Absen-page";
 
 function NonAdminAttendanceRoute() {
@@ -80,7 +84,11 @@ function App() {
       <Route path="/" element={<LoginForm />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/siswa" element={<DataSiswa />} />
-      <Route path="/absensi" element={<Absensi />} />
+      <Route path="/guru" element={<DataGuru />} />
+      <Route path="/kelas" element={<DataKelas />} />
+      <Route path="/jadwal" element={<DataJadwal />} />
+      <Route path="/tahun-ajaran" element={<TahunAjaranPage />} />
+      <Route path="/mapel" element={<DataMapel />} />
       <Route path="/absen-page" element={<NonAdminAttendanceRoute />} />
     </Routes>
   );

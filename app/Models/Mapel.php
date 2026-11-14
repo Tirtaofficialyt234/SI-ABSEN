@@ -17,6 +17,6 @@ class Mapel extends Model
 
     public function jadwal()
     {
-        return $this->belongsTo(Jadwal::class);
+        return $this->hasMany(Jadwal::class);
     }
 }

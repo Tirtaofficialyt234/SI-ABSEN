@@ -18,8 +18,32 @@ class AuthController extends Controller
 
         $user = User::where('email', $validated['email'])->first();
 
-        if (! $user || ! Hash::check($validated['password'], $user->password)) {
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response()->json(['message' => 'Email atau password salah'], 401);
+        }
+
+        if ($user->role === 'guru') {
+            $guru = $user->guru;
+
+            if (!$guru) {
+                return response()->json([
+                    'message' => 'Profil data guru tidak ditemukan.'
+                ], 403);
+            }
+
+            $hariIni = strtolower(now()->locale('id')->dayName);
+            $jamSekarang = now()->format('H:i:s');
+            $adaJadwal = \App\Models\Jadwal::where('guru_id', $guru->id)
+                ->where('hari', $hariIni)
+                ->where('jam_mulai', '<=', $jamSekarang)
+                ->where('jam_selesai', '>=', $jamSekarang)
+                ->exists();
+
+            if(!$adaJadwal){
+                return response()->json([
+                    'message' => 'Anda tidak memiliki jadwal mengajar pada jam dan hari ini.'
+                ], 403);
+            }
         }
 
         return response()->json([

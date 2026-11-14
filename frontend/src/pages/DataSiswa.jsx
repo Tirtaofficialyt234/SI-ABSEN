@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { logout as logoutApi } from "../api/auth";
 import api from "../api/axios";
 import TambahSiswa from "./TambahSiswa";
+import DetailSiswa from "./DetailSiswa";
 
 import {
     Search,
@@ -11,8 +12,11 @@ import {
     MoreVertical,
     LayoutDashboard,
     Users,
+    School,
     GraduationCap,
     CalendarCheck,
+    CalendarDays,
+    BookOpen,
     LogOut,
     Trash2,
     Bell,
@@ -20,6 +24,7 @@ import {
     ChevronRight,
     Shield,
     Menu,
+    Check,
 } from "lucide-react";
 
 import "./Dashboard.css";
@@ -29,6 +34,9 @@ export default function DataSiswa() {
     const navigate = useNavigate();
 
     const [students, setStudents] = useState([]);
+    const [kelasList, setKelasList] = useState([]);
+    const [kelasFilter, setKelasFilter] = useState("");
+    const [statusFilter, setStatusFilter] = useState("");
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
@@ -40,23 +48,56 @@ export default function DataSiswa() {
     });
 
     const [showTambah, setShowTambah] = useState(false);
+    const [selectedDetail, setSelectedDetail] = useState(null);
+    const [loadingDetail, setLoadingDetail] = useState(false);
     const [openMenu, setOpenMenu] = useState(null);
+    const [openKelasDropdown, setOpenKelasDropdown] = useState(false);
+    const [openStatusDropdown, setOpenStatusDropdown] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const isFirstRender = useRef(true);
+    const kelasDropdownRef = useRef(null);
+    const statusDropdownRef = useRef(null);
+
+    // Close dropdowns when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (kelasDropdownRef.current && !kelasDropdownRef.current.contains(event.target)) {
+                setOpenKelasDropdown(false);
+            }
+            if (statusDropdownRef.current && !statusDropdownRef.current.contains(event.target)) {
+                setOpenStatusDropdown(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     const fetchStudents = async (
         searchVal = search,
-        pageVal = page
+        pageVal = page,
+        kelasVal = kelasFilter,
+        statusVal = statusFilter
     ) => {
         setLoading(true);
 
         try {
-            const res = await api.get("/siswa", {
-                params: {
-                    search: searchVal,
-                    page: pageVal,
-                },
-            });
+            const params = {
+                search: searchVal,
+                page: pageVal,
+            };
+
+            if (kelasVal) {
+                params.kelas_id = kelasVal;
+            }
+
+            if (statusVal) {
+                params.status = statusVal;
+            }
+
+            const res = await api.get("/siswa", { params });
 
             setStudents(res.data.data);
 
@@ -102,30 +143,20 @@ export default function DataSiswa() {
 };
 
     useEffect(() => {
-    const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-    console.log("TOKEN:", token);
+        if (!token || token === "undefined" || token === "null") {
+            navigate("/");
+            return;
+        }
 
-    if (
-        !token ||
-        token === "undefined" ||
-        token === "null"
-    ) {
-        navigate("/");
-        return;
-    }
+        // Ambil daftar kelas untuk dropdown filter
+        api.get("/kelas")
+            .then((res) => setKelasList(res.data))
+            .catch((err) => console.error("Gagal load kelas:", err));
 
-    console.log("MEMANGGIL FETCH DASHBOARD");
-
-    fetchDashboard();
-
-    const interval = setInterval(() => {
-        console.log("5 DETIK - FETCH ULANG");
-        fetchDashboard();
-    }, 5000);
-
-    return () => clearInterval(interval);
-}, []);
+        fetchStudents(search, 1, kelasFilter, statusFilter);
+    }, []);
 
     useEffect(() => {
         if (isFirstRender.current) {
@@ -135,11 +166,37 @@ export default function DataSiswa() {
 
         const timeout = setTimeout(() => {
             setPage(1);
-            fetchStudents(search, 1);
+            fetchStudents(search, 1, kelasFilter, statusFilter);
         }, 400);
 
         return () => clearTimeout(timeout);
     }, [search]);
+
+    const handleSelectKelas = (val) => {
+        setKelasFilter(val);
+        setOpenKelasDropdown(false);
+        setPage(1);
+        fetchStudents(search, 1, val, statusFilter);
+    };
+
+    const handleSelectStatus = (val) => {
+        setStatusFilter(val);
+        setOpenStatusDropdown(false);
+        setPage(1);
+        fetchStudents(search, 1, kelasFilter, val);
+    };
+
+    const selectedKelasLabel = kelasList.find((k) => String(k.id) === String(kelasFilter))?.nama_kelas || "Semua Kelas";
+
+    const statusOptions = [
+        { label: "Semua Status", value: "" },
+        { label: "Aktif", value: "aktif" },
+        { label: "Lulus", value: "lulus" },
+        { label: "Pindah", value: "pindah" },
+        { label: "Keluar", value: "keluar" },
+    ];
+
+    const selectedStatusLabel = statusOptions.find((s) => s.value === statusFilter)?.label || "Semua Status";
 
     const handlePage = (p) => {
         if (p < 1 || p > meta.last_page) {
@@ -147,7 +204,20 @@ export default function DataSiswa() {
         }
 
         setPage(p);
-        fetchStudents(search, p);
+        fetchStudents(search, p, kelasFilter, statusFilter);
+    };
+
+    const handleOpenDetail = async (id) => {
+        setLoadingDetail(true);
+        try {
+            const res = await api.get(`/siswa/${id}`);
+            setSelectedDetail(res.data);
+        } catch (err) {
+            console.error("Gagal mengambil detail siswa:", err);
+            alert("Gagal memuat detail siswa");
+        } finally {
+            setLoadingDetail(false);
+        }
     };
 
     const handleLogout = async () => {
@@ -171,7 +241,7 @@ export default function DataSiswa() {
 
             console.log("HASIL DELETE:", response.data);
             alert("Data berhasil dihapus");
-            fetchStudents(search, page);
+            fetchStudents(search, page, kelasFilter, statusFilter);
         } catch (error) {
             console.error("ERROR DELETE:", error);
             console.error("RESPONSE:", error.response?.data);
@@ -242,11 +312,51 @@ export default function DataSiswa() {
                     <a 
                         className="menu-item"
                         onClick={() =>
-                            navigate("/absensi")
+                            navigate("/guru")
+                        }
+                    >
+                        <GraduationCap size={20} />
+                        Data Guru
+                    </a>
+
+                    <a 
+                        className="menu-item"
+                        onClick={() =>
+                            navigate("/kelas")
+                        }
+                    >
+                        <School size={20} />
+                        Data Kelas
+                    </a>
+
+                    <a 
+                        className="menu-item"
+                        onClick={() =>
+                            navigate("/jadwal")
                         }
                     >
                         <CalendarCheck size={20} />
-                        Absensi
+                        Jadwal
+                    </a>
+
+                    <a 
+                        className="menu-item"
+                        onClick={() =>
+                            navigate("/tahun-ajaran")
+                        }
+                    >
+                        <CalendarDays size={20} />
+                        Tahun Ajaran
+                    </a>
+
+                    <a 
+                        className="menu-item"
+                        onClick={() =>
+                            navigate("/mapel")
+                        }
+                    >
+                        <BookOpen size={20} />
+                        Mata Pelajaran
                     </a>
 
                 </nav>
@@ -337,29 +447,87 @@ export default function DataSiswa() {
 
                         </div>
 
-                        <button className="ds-filter-btn">
+                        {/* FILTER KELAS (CUSTOM MODERN DROPDOWN) */}
+                        <div className="ds-dropdown-wrapper" ref={kelasDropdownRef}>
+                            <button
+                                type="button"
+                                className={`ds-dropdown-trigger ${openKelasDropdown ? "ds-dropdown-trigger--open" : ""}`}
+                                onClick={() => {
+                                    setOpenKelasDropdown(!openKelasDropdown);
+                                    setOpenStatusDropdown(false);
+                                }}
+                            >
+                                <Users size={16} className="ds-dropdown-icon" />
+                                <span className="ds-dropdown-label">{selectedKelasLabel}</span>
+                                <ChevronDown
+                                    size={15}
+                                    className={`ds-dropdown-chevron ${openKelasDropdown ? "ds-dropdown-chevron--rotate" : ""}`}
+                                />
+                            </button>
 
-                            <Users size={17} />
+                            {openKelasDropdown && (
+                                <div className="ds-dropdown-menu">
+                                    <button
+                                        type="button"
+                                        className={`ds-dropdown-item ${kelasFilter === "" ? "ds-dropdown-item--selected" : ""}`}
+                                        onClick={() => handleSelectKelas("")}
+                                    >
+                                        <span>Semua Kelas</span>
+                                        {kelasFilter === "" && <Check size={14} className="ds-dropdown-check" />}
+                                    </button>
+                                    {kelasList.map((k) => (
+                                        <button
+                                            key={k.id}
+                                            type="button"
+                                            className={`ds-dropdown-item ${String(kelasFilter) === String(k.id) ? "ds-dropdown-item--selected" : ""}`}
+                                            onClick={() => handleSelectKelas(k.id)}
+                                        >
+                                            <span>{k.nama_kelas}</span>
+                                            {String(kelasFilter) === String(k.id) && (
+                                                <Check size={14} className="ds-dropdown-check" />
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
 
-                            <span>
-                                Semua Kelas
-                            </span>
+                        {/* FILTER STATUS (CUSTOM MODERN DROPDOWN) */}
+                        <div className="ds-dropdown-wrapper" ref={statusDropdownRef}>
+                            <button
+                                type="button"
+                                className={`ds-dropdown-trigger ${openStatusDropdown ? "ds-dropdown-trigger--open" : ""}`}
+                                onClick={() => {
+                                    setOpenStatusDropdown(!openStatusDropdown);
+                                    setOpenKelasDropdown(false);
+                                }}
+                            >
+                                <Shield size={16} className="ds-dropdown-icon" />
+                                <span className="ds-dropdown-label">{selectedStatusLabel}</span>
+                                <ChevronDown
+                                    size={15}
+                                    className={`ds-dropdown-chevron ${openStatusDropdown ? "ds-dropdown-chevron--rotate" : ""}`}
+                                />
+                            </button>
 
-                            <ChevronDown size={16} />
-
-                        </button>
-
-                        <button className="ds-filter-btn">
-
-                            <Shield size={17} />
-
-                            <span>
-                                Semua Status
-                            </span>
-
-                            <ChevronDown size={16} />
-
-                        </button>
+                            {openStatusDropdown && (
+                                <div className="ds-dropdown-menu">
+                                    {statusOptions.map((opt) => (
+                                        <button
+                                            key={opt.value}
+                                            type="button"
+                                            className={`ds-dropdown-item ${statusFilter === opt.value ? "ds-dropdown-item--selected" : ""}`}
+                                            onClick={() => handleSelectStatus(opt.value)}
+                                        >
+                                            <span>{opt.label}</span>
+                                            {statusFilter === opt.value && (
+                                                <Check size={14} className="ds-dropdown-check" />
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
 
                         <button
                             className="ds-add-btn"
@@ -495,7 +663,11 @@ export default function DataSiswa() {
                                             <td>
                                                 <div className="ds-action">
 
-                                                    <button className="ds-btn-detail">
+                                                    <button 
+                                                        className="ds-btn-detail"
+                                                        onClick={() => handleOpenDetail(s.id)}
+                                                        disabled={loadingDetail}
+                                                    >
                                                         Detail
                                                     </button>
 
@@ -618,10 +790,18 @@ export default function DataSiswa() {
                     }
                     onSuccess={() => {
                         setShowTambah(false);
-                        fetchStudents(search, page);
+                        fetchStudents(search, page, kelasFilter, statusFilter);
                     }}
                 />
 
+            )}
+
+            {/* MODAL DETAIL SISWA */}
+            {selectedDetail && (
+                <DetailSiswa
+                    siswaData={selectedDetail}
+                    onClose={() => setSelectedDetail(null)}
+                />
             )}
 
         </div>

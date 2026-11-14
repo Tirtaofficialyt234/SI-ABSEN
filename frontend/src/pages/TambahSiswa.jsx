@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, UserPlus } from "lucide-react";
 import { createSiswa } from "../api/siswa";
+import api from "../api/axios";
+import CustomSelect from "../components/CustomSelect";
 import "./TambahSiswa.css";
 
 export default function TambahSiswa({
@@ -13,8 +15,15 @@ export default function TambahSiswa({
         kelas_id: "",
     });
 
+    const [kelasList, setKelasList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        api.get("/kelas")
+            .then((res) => setKelasList(res.data))
+            .catch((err) => console.error("Gagal load kelas:", err));
+    }, []);
 
     const handleChange = (e) => {
         setForm({
@@ -154,36 +163,18 @@ export default function TambahSiswa({
                     </div>
 
                     <div className="form-group">
-
-                        <label>
-                            Kelas
-                        </label>
-
-                        <select
+                        <label>Kelas</label>
+                        <CustomSelect
                             name="kelas_id"
                             value={form.kelas_id}
                             onChange={handleChange}
+                            options={kelasList.map((k) => ({
+                                label: k.nama_kelas,
+                                value: k.id,
+                            }))}
+                            placeholder="Pilih kelas"
                             required
-                        >
-
-                            <option value="">
-                                Pilih kelas
-                            </option>
-
-                            <option value="2">10 PPLG</option>
-                            <option value="3">11 PPLG</option>
-                            <option value="4">12 PPLG</option>
-
-                            <option value="5">10 TJKT</option>
-                            <option value="6">11 TJKT</option>
-                            <option value="7">12 TJKT</option>
-
-                            <option value="8">10 Busana</option>
-                            <option value="9">11 Busana</option>
-                            <option value="10">12 Busana</option>
-
-                        </select>
-
+                        />
                     </div>
 
                     <div className="modal-footer">

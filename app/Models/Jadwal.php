@@ -29,4 +29,9 @@ class Jadwal extends Model
     {
         return $this->belongsTo(Absensi::class);
     }
+
+    public function tahunAjaran()
+    {
+        return $this-> belongsTo(tahunAjaran:: class, 'tahun_ajaran_id');
+    }
 }

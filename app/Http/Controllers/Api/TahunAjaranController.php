@@ -53,4 +53,64 @@ class TahunAjaranController extends Controller
             'tahun_ajaran_baru' => $tahunBaru,
         ], 200);
     }
+
+    public function index()
+    {
+        $tahunAjaran = TahunAjaran::orderBy('id', 'desc')->get();
+        return response()->json($tahunAjaran);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama' => 'required|string',
+            'semester' => 'required|in:ganjil,genap',
+        ]);
+
+        $validated['status'] = 'nonaktif';
+
+        $tahun = TahunAjaran::create($validated);
+
+        return response()->json([
+            'message' => 'Tahun ajaran berhasil dibuat',
+            'data' => $tahun
+        ], 201);
+
+    }
+
+    public function setAktif($id)
+    {
+        $target = TahunAjaran::find($id);
+
+        if (!$target) {
+            return response()->json([
+                'message' => 'Tahun ajaran tidak ditemukan'
+            ], 404);
+        }
+
+        TahunAjaran::query()->update(['status' => 'nonaktif']);
+        $target->update(['status' => 'aktif']);
+
+        return response()->json([
+            'message' => 'Tahun ajaran aktif berhasil diperbarui',
+            'data' => $target
+        ]);
+
+
+    }
+
+    public function destroy($id)
+    {
+        $target = TahunAjaran::find($id);
+        if (!$target) {
+            return response()->json(['message' => 'Tahun ajaran tidak ditemukan'], 404);
+        }
+        if ($target->status === 'aktif') {
+            return response()->json([
+                'message' => 'Tidak dapat menghapus tahun ajaran yang sedang aktif.'
+            ], 422);
+        }
+        $target->delete();
+        return response()->json(['message' => 'Tahun ajaran berhasil dihapus']);
+    }
 }
