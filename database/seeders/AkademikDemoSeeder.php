@@ -19,6 +19,17 @@ class AkademikDemoSeeder extends Seeder
      */
     public function run(): void
     {
+        User::updateOrCreate(
+            [
+                'email' => 'admin2@sekolah.test',
+            ],
+            [
+                'name' => 'Administrator',
+                'password' => bcrypt('admin123'),
+                'role' => 'admin',
+            ]
+        );
+
         $ta = TahunAjaran::create(['nama' => '2025/2026', 'semester' => 'ganjil', 'status' => 'aktif']);
         $kelas8A = Kelas::create(['tahun_ajaran_id' => $ta->id, 'nama_kelas' => '8A', 'tingkat' => '8']);
         $mtk = Mapel::create(['nama_mapel' => 'Matematika']);
