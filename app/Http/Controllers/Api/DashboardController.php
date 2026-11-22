@@ -66,7 +66,7 @@ class DashboardController extends Controller
 
         $siswaDiKelas = SiswaKelas::with('siswa')
             ->where('kelas_id', $jadwalAktif->kelas_id)
-            ->where('tahun_ajaran_id', TahunAjaran::aktif()->id)
+            ->where('tahun_ajaran_id', $jadwalAktif->tahun_ajaran_id)
             ->where('status', 'aktif')
             ->get();
 
@@ -113,22 +113,22 @@ class DashboardController extends Controller
         // Data for chart: Last 7 days attendance
         $grafikKehadiran = [];
         $tujuhHariLalu = now()->subDays(6)->toDateString();
-        
+
         $absensiSeminggu = Absensi::where('tanggal', '>=', $tujuhHariLalu)->get();
-        
+
         $hariIndo = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
-        
+
         for ($i = 6; $i >= 0; $i--) {
             $date = now()->subDays($i);
             $tanggalString = $date->toDateString();
             $label = $hariIndo[$date->dayOfWeek];
-            
+
             $absensiHarian = $absensiSeminggu->where('tanggal', $tanggalString);
             $total = $absensiHarian->count();
             $hadirCount = $absensiHarian->where('status', 'hadir')->count();
-            
+
             $persentase = $total > 0 ? round(($hadirCount / $total) * 100) : 0;
-            
+
             $grafikKehadiran[] = [
                 'hari' => $label,
                 'persentase' => $persentase,

@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useId, useState, useRef, useEffect } from "react";
 import { ChevronDown, Check } from "lucide-react";
 
+/* eslint-disable react/prop-types */
 /**
  * Modern Select component with floating menu, micro-interactions,
  * search-ready style, and click-outside dismissal.
@@ -14,9 +15,12 @@ export default function CustomSelect({
     name = "",
     required = false,
     disabled = false,
+    ariaLabel,
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const triggerRef = useRef(null);
+    const menuId = useId();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -25,9 +29,18 @@ export default function CustomSelect({
             }
         };
 
-        document.addEventListener("mousedown", handleClickOutside);
+        const handleKeyDown = (event) => {
+            if (event.key === "Escape") {
+                setIsOpen(false);
+                triggerRef.current?.focus();
+            }
+        };
+
+        document.addEventListener("pointerdown", handleClickOutside);
+        document.addEventListener("keydown", handleKeyDown);
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("pointerdown", handleClickOutside);
+            document.removeEventListener("keydown", handleKeyDown);
         };
     }, []);
 
@@ -51,7 +64,7 @@ export default function CustomSelect({
                 <input
                     type="text"
                     tabIndex={-1}
-                    value={value || ""}
+                    value={value ?? ""}
                     onChange={() => {}}
                     required={required}
                     style={{
@@ -66,12 +79,17 @@ export default function CustomSelect({
             )}
 
             <button
+                ref={triggerRef}
                 type="button"
                 className={`custom-select-trigger ${isOpen ? "custom-select-trigger--open" : ""} ${
-                    !value ? "custom-select-trigger--placeholder" : ""
+                    !selectedOption ? "custom-select-trigger--placeholder" : ""
                 } ${disabled ? "custom-select-trigger--disabled" : ""}`}
                 onClick={() => !disabled && setIsOpen(!isOpen)}
                 disabled={disabled}
+                aria-label={ariaLabel}
+                aria-haspopup="listbox"
+                aria-expanded={isOpen}
+                aria-controls={isOpen ? menuId : undefined}
             >
                 {Icon && <Icon size={16} className="custom-select-icon" />}
                 <span className="custom-select-label">{displayLabel}</span>
@@ -82,7 +100,7 @@ export default function CustomSelect({
             </button>
 
             {isOpen && (
-                <div className="custom-select-menu">
+                <div className="custom-select-menu" id={menuId} role="listbox" aria-label={ariaLabel || placeholder}>
                     {options.length === 0 ? (
                         <div className="custom-select-empty">Tidak ada pilihan</div>
                     ) : (
@@ -95,6 +113,8 @@ export default function CustomSelect({
                                     className={`custom-select-item ${
                                         isSelected ? "custom-select-item--selected" : ""
                                     }`}
+                                    role="option"
+                                    aria-selected={isSelected}
                                     onClick={() => handleSelect(opt.value)}
                                 >
                                     <span>{opt.label}</span>

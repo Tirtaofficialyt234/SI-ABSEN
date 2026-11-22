@@ -78,19 +78,25 @@ class LaporanController extends Controller
                 ->where('jadwal.guru_id', $request->guru_id);
         }
 
-        $data = $query->select('absensi.tanggal as date')->
-            selectRaw('COUNT(*) as total')->
-            selectRaw("SUM(CASE WHEN absensi.status = 'hadir' THEN 1 ELSE 0 END) as hadir")->
-            selectRaw("SUM(CASE WHEN absensi.status = 'izin' THEN 1 ELSE 0 END) as izin")->
-            selectRaw("SUM(CASE WHEN absensi.status = 'sakit' THEN 1 ELSE 0 END) as sakit")->
-            selectRaw("SUM(CASE WHEN absensi.status = 'alpa' THEN 1 ELSE 0 END) as alpa")->
-            groupBy('absensi.tanggal')->get()->map(function ($item) {
-                $item->presentase = $item->total > 0 ? round(($item->hadir / $item->total) * 100, 1)
-                    : null;
-                return $item;
+        $data = $query->select('absensi.tanggal as date')
+            ->selectRaw('COUNT(*) as total')
+            ->selectRaw("SUM(CASE WHEN absensi.status = 'hadir' THEN 1 ELSE 0 END) as hadir")
+            ->selectRaw("SUM(CASE WHEN absensi.status = 'izin' THEN 1 ELSE 0 END) as izin")
+            ->selectRaw("SUM(CASE WHEN absensi.status = 'sakit' THEN 1 ELSE 0 END) as sakit")
+            ->selectRaw("SUM(CASE WHEN absensi.status = 'alpa' THEN 1 ELSE 0 END) as alpa")
+            ->groupBy('absensi.tanggal')
+            ->orderBy('absensi.tanggal', 'desc')
+            ->get()
+            ->map(function ($item) {
+                $item->persentase = $item->total > 0 ? round(($item->hadir / $item->total) * 100, 1) : null;
 
+                return $item;
             });
 
+        return response()->json([
+            'tahun_ajaran' => $ta,
+            'data' => $data,
+        ]);
     }
 
     public function rekapPerBulan(Request $request)
@@ -105,7 +111,8 @@ class LaporanController extends Controller
         }
 
         if ($request->has('guru_id')) {
-            $query->join('jadwal', 'absensi.jadwal_id');
+            $query->join('jadwal', 'absensi.jadwal_id', '=', 'jadwal.id')
+                ->where('jadwal.guru_id', $request->guru_id);
         }
 
         $data = $query->selectRaw("DATE_FORMAT(absensi.tanggal, '%Y-%m') as month")
@@ -121,8 +128,10 @@ class LaporanController extends Controller
                 $item->persentase = $item->total > 0
                     ? round(($item->hadir / $item->total) * 100, 1)
                     : null;
+
                 return $item;
             });
+
         return response()->json([
             'tahun_ajaran' => $ta,
             'data' => $data,

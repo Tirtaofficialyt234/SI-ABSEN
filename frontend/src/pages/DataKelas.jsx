@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout as logoutApi } from "../api/auth";
 import api from "../api/axios";
+import AdminTopbar from "../components/AdminTopbar";
 import TambahKelas from "./TambahKelas";
 
 import {
@@ -16,8 +17,6 @@ import {
     BookOpen,
     LogOut,
     Trash2,
-    Bell,
-    Menu,
     ChevronDown,
     Building2,
     Check,
@@ -191,31 +190,12 @@ export default function DataKelas() {
 
             {/* MAIN */}
             <main className="main-content">
-
-                {/* TOPBAR */}
-                <header className="topbar">
-                    <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                        <button className="menu-btn" onClick={() => setIsSidebarOpen(true)}>
-                            <Menu size={24} />
-                        </button>
-                        <div className="search-box">
-                            <Search size={19} />
-                            <input type="text" placeholder="Cari di dashboard..." />
-                        </div>
-                    </div>
-
-                    <div className="topbar-right">
-                        <div className="notification">
-                            <Bell size={21} />
-                            <span></span>
-                        </div>
-                        <div className="profile">
-                            <div className="profile-avatar">A</div>
-                            <span>Admin</span>
-                            <ChevronDown size={17} />
-                        </div>
-                    </div>
-                </header>
+                <AdminTopbar
+                    isSidebarOpen={isSidebarOpen}
+                    onToggleSidebar={() => setIsSidebarOpen((isOpen) => !isOpen)}
+                    onLogout={handleLogout}
+                    searchPlaceholder="Cari nama kelas / rombel..."
+                />
 
                 {/* CONTENT — pakai class "content" dari Dashboard.css */}
                 <section className="content">

@@ -1,0 +1,602 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #172b4d;
+  background: #f6f8fc;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  display: block;
+  overflow-x: hidden;
+  font-family: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.dashboard,
+.attendance-page,
+.absensi-page {
+  width: 100%;
+  min-width: 0;
+}
+
+.dashboard .sidebar {
+  flex-shrink: 0;
+}
+
+.dashboard .main-content,
+.dashboard .main-content > :is(
+  .content,
+  .ds-content,
+  .dj-content,
+  .mapel-content,
+  .ta-content
+) {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.dashboard .topbar > div:first-child {
+  flex: 1;
+  min-width: 0;
+  gap: 12px !important;
+}
+
+.dashboard .topbar .search-box {
+  width: min(560px, 100%);
+  min-width: 0;
+  flex: 1;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+}
+
+.dashboard .topbar .search-box:focus-within {
+  border-color: #64748b;
+  box-shadow: 0 0 0 3px rgb(100 116 139 / 12%);
+}
+
+.dashboard .topbar .search-box input {
+  min-width: 0;
+}
+
+.dashboard .topbar-right {
+  flex-shrink: 0;
+}
+
+.dashboard :is(
+  .ds-filter-bar,
+  .dg-filter-bar,
+  .dk-filter-bar,
+  .dj-filter-bar,
+  .mapel-filter-bar,
+  .ta-filter-bar
+) {
+  min-width: 0;
+}
+
+.dashboard :is(
+  .ds-search-box,
+  .dg-search-box,
+  .dk-search-box,
+  .dj-search-box,
+  .mapel-search-box,
+  .ta-search-box
+) {
+  min-width: 0;
+}
+
+.dashboard :is(
+  .ds-table-card,
+  .dg-table-card,
+  .dk-table-card,
+  .dj-table-card,
+  .mapel-table-card,
+  .ta-table-card
+) {
+  min-width: 0;
+}
+
+.dashboard :is(
+  .ds-table,
+  .dg-table,
+  .dk-table,
+  .dj-table,
+  .mapel-table,
+  .ta-table
+) {
+  width: 100%;
+}
+
+.modal-card,
+.detail-modal-card {
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .dashboard > .sidebar:not(.open) {
+    width: 220px;
+  }
+
+  .dashboard .content,
+  .dashboard .ds-content,
+  .dashboard .dj-content,
+  .dashboard .mapel-content,
+  .dashboard .ta-content {
+    padding: 26px 22px;
+  }
+
+  .dashboard .stats-grid,
+  .dashboard .mapel-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard .middle-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .dashboard > .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 1001;
+    display: none;
+    width: min(280px, 86vw);
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    box-shadow: 8px 0 28px rgb(15 23 42 / 14%);
+  }
+
+  .dashboard > .sidebar.open {
+    display: flex;
+  }
+
+  .dashboard .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: block;
+    background: rgb(15 23 42 / 48%);
+  }
+
+  .dashboard .menu-btn {
+    display: inline-grid;
+    flex: 0 0 40px;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+  }
+
+  .dashboard .main-content {
+    width: 100%;
+  }
+
+  .dashboard .topbar {
+    gap: 12px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .dashboard .topbar-right {
+    gap: 12px;
+  }
+
+  .dashboard :is(
+    .ds-filter-bar,
+    .dg-filter-bar,
+    .dk-filter-bar,
+    .dj-filter-bar,
+    .mapel-filter-bar,
+    .ta-filter-bar
+  ) {
+    gap: 10px;
+  }
+
+  .dashboard :is(
+    .ds-search-box,
+    .dg-search-box,
+    .dk-search-box,
+    .dj-search-box,
+    .mapel-search-box,
+    .ta-search-box
+  ) {
+    flex: 1 1 220px;
+  }
+
+  .dashboard :is(
+    .ds-add-btn,
+    .dg-add-btn,
+    .dk-add-btn,
+    .dj-add-btn,
+    .mapel-add-btn,
+    .ta-add-btn
+  ) {
+    margin-left: 0;
+  }
+
+  .absensi-sidebar {
+    width: 220px;
+  }
+
+  .absensi-main {
+    width: calc(100% - 220px);
+    margin-left: 220px;
+  }
+}
+
+@media (max-width: 700px) {
+  .dashboard .topbar {
+    min-height: 64px;
+    height: auto;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .dashboard .topbar > div:first-child {
+    gap: 7px !important;
+  }
+
+  .dashboard .topbar .search-box {
+    height: 40px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .dashboard .topbar-right {
+    gap: 6px;
+  }
+
+  .dashboard .content,
+  .dashboard .ds-content,
+  .dashboard .dj-content,
+  .dashboard .mapel-content,
+  .dashboard .ta-content {
+    padding: 18px 14px;
+  }
+
+  .dashboard :is(
+    .ds-page-header,
+    .dg-page-header,
+    .dk-page-header,
+    .dj-page-header,
+    .mapel-page-header,
+    .ta-page-header
+  ) h1 {
+    font-size: clamp(22px, 6vw, 28px);
+  }
+
+  .dashboard :is(
+    .ds-filter-bar,
+    .dg-filter-bar,
+    .dk-filter-bar,
+    .dj-filter-bar,
+    .mapel-filter-bar,
+    .ta-filter-bar
+  ) {
+    align-items: stretch;
+    padding: 12px;
+  }
+
+  .dashboard :is(
+    .ds-search-box,
+    .dg-search-box,
+    .dk-search-box,
+    .dj-search-box,
+    .mapel-search-box,
+    .ta-search-box
+  ) {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .dashboard :is(
+    .ds-dropdown-wrapper,
+    .dk-dropdown-wrapper,
+    .dj-dropdown-wrapper,
+    .ds-filter-group
+  ) {
+    flex: 1 1 160px;
+    min-width: 0;
+  }
+
+  .dashboard :is(
+    .ds-dropdown-trigger,
+    .dk-dropdown-trigger,
+    .dj-dropdown-trigger,
+    .ds-filter-select,
+    .ds-filter-btn,
+    .dk-filter-select,
+    .dj-filter-select
+  ) {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .dashboard :is(
+    .ds-add-btn,
+    .dg-add-btn,
+    .dk-add-btn,
+    .dj-add-btn,
+    .mapel-add-btn,
+    .ta-add-btn
+  ) {
+    flex: 1 1 100%;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dashboard :is(
+    .ds-table-card,
+    .dg-table-card,
+    .dk-table-card,
+    .dj-table-card,
+    .mapel-table-card,
+    .ta-table-card
+  ) {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dashboard :is(.ds-table-footer, .dj-table-footer) {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .dashboard :is(.ds-pagination, .dj-pagination) {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .dashboard .welcome {
+    flex-wrap: wrap;
+  }
+
+  .dashboard .attendance {
+    flex-wrap: wrap;
+  }
+
+  .dashboard .card-header {
+    flex-wrap: wrap;
+  }
+
+  .dashboard .table-card .card-header > button {
+    max-width: 100%;
+  }
+
+  .attendance-page .page-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+
+  .attendance-page .search-box {
+    order: 3;
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .attendance-page .header-right {
+    margin-left: auto;
+  }
+
+  .attendance-page .content {
+    padding: 16px 14px;
+  }
+
+  .attendance-page .title-row {
+    align-items: stretch;
+  }
+
+  .attendance-page .date-card {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .attendance-page .filter-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .attendance-page .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .attendance-page .table-actions {
+    width: 100%;
+  }
+
+  .attendance-page .table-actions > button {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .absensi-sidebar {
+    display: none;
+  }
+
+  .absensi-main {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .absensi-content {
+    padding: 16px;
+  }
+
+  .absensi-welcome {
+    padding: 18px;
+  }
+
+  .absensi-welcome-image {
+    display: none;
+  }
+
+  .absensi-filter {
+    align-items: stretch;
+  }
+
+  .absensi-filter-item,
+  .absensi-save {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .absensi-save {
+    justify-content: center;
+  }
+
+  .absensi-footer {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard .topbar {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .dashboard .topbar-right {
+    gap: 3px;
+  }
+
+  .dashboard .topbar .profile > span:not(.profile-avatar),
+  .dashboard .topbar .profile > svg {
+    display: none;
+  }
+
+  .dashboard .content,
+  .dashboard .ds-content,
+  .dashboard .dj-content,
+  .dashboard .mapel-content,
+  .dashboard .ta-content {
+    padding: 16px 12px;
+  }
+
+  .dashboard .stats-grid,
+  .dashboard .mapel-stats-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashboard .stat-card {
+    min-width: 0;
+  }
+
+  .dashboard .welcome {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard .status-card .attendance {
+    justify-content: center;
+  }
+
+  .dashboard .chart-label {
+    gap: 2px;
+    font-size: 9px;
+  }
+
+  .dashboard .chart-val {
+    font-size: 9px;
+  }
+
+  .attendance-page .content {
+    padding: 14px 12px;
+  }
+
+  .attendance-page .stats-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .attendance-page .stats-grid .stat-card:first-child {
+    grid-column: auto;
+  }
+
+  .modal-overlay {
+    align-items: flex-start;
+    padding: 10px;
+    overflow-y: auto;
+  }
+
+  .modal-card,
+  .detail-modal-card {
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100dvh - 20px);
+    margin: auto 0;
+    padding: 18px;
+  }
+
+  .modal-header {
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .modal-title-wrapper {
+    min-width: 0;
+    gap: 9px;
+  }
+
+  .modal-title-wrapper h2 {
+    font-size: 1.1rem;
+  }
+
+  .modal-title-wrapper p {
+    font-size: 0.8rem;
+  }
+
+  .form-row-2 {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .modal-footer {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .modal-footer > button {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .detail-profile-banner {
+    align-items: flex-start;
+    padding: 14px;
+  }
+
+  .detail-profile-meta {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .detail-riwayat-item {
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

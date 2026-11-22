@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Jadwal extends Model
 {
@@ -25,13 +26,13 @@ class Jadwal extends Model
         return $this->belongsTo(Mapel::class);
     }
 
-    public function abesensi()
-    {
-        return $this->belongsTo(Absensi::class);
-    }
-
     public function tahunAjaran()
     {
-        return $this-> belongsTo(tahunAjaran:: class, 'tahun_ajaran_id');
+        return $this->belongsTo(tahunAjaran::class, 'tahun_ajaran_id');
+    }
+
+    public function absensi(): HasMany
+    {
+        return $this->hasMany(Absensi::class, 'jadwal_id');
     }
 }

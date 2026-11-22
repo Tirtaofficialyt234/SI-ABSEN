@@ -167,19 +167,36 @@ export default function TambahJadwal({
                         onSubmit={handleSubmit}
                     >
 
-                        <div className="form-group">
-                            <label>Kelas</label>
-                            <CustomSelect
-                                name="kelas_id"
-                                value={form.kelas_id}
-                                onChange={handleChange}
-                                options={options.kelas.map((k) => ({
-                                    label: k.nama_kelas,
-                                    value: k.id,
-                                }))}
-                                placeholder="Pilih kelas"
-                                required
-                            />
+                        <div className="form-row-2">
+                            <div className="form-group">
+                                <label>Kelas</label>
+                                <CustomSelect
+                                    name="kelas_id"
+                                    value={form.kelas_id}
+                                    onChange={handleChange}
+                                    options={options.kelas.map((k) => ({
+                                        label: k.nama_kelas,
+                                        value: k.id,
+                                    }))}
+                                    placeholder="Pilih kelas"
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Hari</label>
+                                <CustomSelect
+                                    name="hari"
+                                    value={form.hari}
+                                    onChange={handleChange}
+                                    options={hariList.map((h) => ({
+                                        label: capitalize(h),
+                                        value: h,
+                                    }))}
+                                    placeholder="Pilih hari"
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <div className="form-group">
@@ -212,41 +229,28 @@ export default function TambahJadwal({
                             />
                         </div>
 
-                        <div className="form-group">
-                            <label>Hari</label>
-                            <CustomSelect
-                                name="hari"
-                                value={form.hari}
-                                onChange={handleChange}
-                                options={hariList.map((h) => ({
-                                    label: capitalize(h),
-                                    value: h,
-                                }))}
-                                placeholder="Pilih hari"
-                                required
-                            />
-                        </div>
+                        <div className="form-row-2">
+                            <div className="form-group">
+                                <label>Jam Mulai</label>
+                                <input
+                                    type="time"
+                                    name="jam_mulai"
+                                    value={form.jam_mulai}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
 
-                        <div className="form-group">
-                            <label>Jam Mulai</label>
-                            <input
-                                type="time"
-                                name="jam_mulai"
-                                value={form.jam_mulai}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label>Jam Selesai</label>
-                            <input
-                                type="time"
-                                name="jam_selesai"
-                                value={form.jam_selesai}
-                                onChange={handleChange}
-                                required
-                            />
+                            <div className="form-group">
+                                <label>Jam Selesai</label>
+                                <input
+                                    type="time"
+                                    name="jam_selesai"
+                                    value={form.jam_selesai}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
                         </div>
 
                         {options.tahun_ajaran && (

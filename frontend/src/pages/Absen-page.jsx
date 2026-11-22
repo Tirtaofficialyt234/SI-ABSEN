@@ -3,7 +3,6 @@ import {
   GraduationCap,
   Search,
   Bell,
-  ChevronDown,
   CalendarCheck,
   Users,
   BookOpen,
@@ -15,7 +14,10 @@ import {
   Save,
   Info,
   Lock,
+  FileSpreadsheet,
 } from "lucide-react";
+import ModalRekapAbsensi from "../components/ModalRekapAbsensi";
+import CustomSelect from "../components/CustomSelect";
 import AuthUserContext from "../auth/AuthUserContext";
 import {
   fetchTeacherSchedules,
@@ -33,11 +35,12 @@ import {
 } from "../utils/session";
 import "./Absen-page.css";
 
+/* eslint-disable react/prop-types */
 const STATUS_OPTIONS = [
   { value: "hadir", label: "Hadir", Icon: CheckCircle2 },
   { value: "izin", label: "Izin", Icon: AlertCircle },
   { value: "sakit", label: "Sakit", Icon: PlusCircle },
-  { value: "alpa", label: "Alpa", Icon: XCircle },
+  { value: "alpa", label: "Alfa", Icon: XCircle },
 ];
 
 const STAT_CARDS = [
@@ -45,7 +48,7 @@ const STAT_CARDS = [
   { key: "hadir", label: "Hadir", Icon: CheckCircle2 },
   { key: "izin", label: "Izin", Icon: AlertCircle },
   { key: "sakit", label: "Sakit", Icon: PlusCircle },
-  { key: "alpa", label: "Alpa", Icon: XCircle },
+  { key: "alpa", label: "Alfa", Icon: XCircle },
 ];
 
 const SESSION_LABELS = {
@@ -110,27 +113,28 @@ function getInitials(name) {
     .toUpperCase();
 }
 
-//digunakan untuk membuat komponen select filter untuk memilih kelas atau mata pelajaran.
+//digunakan untuk memilih kelas atau mata pelajaran.
 function FilterSelect({ label, Icon, value, options, onChange }) {
   return (
-    <label className="filter-group">
+    <div className="filter-group">
       <span className="filter-icon">
         <Icon size={22} />
       </span>
       <span className="filter-body">
         <small>{label}</small>
-        <span className="filter-box">
-          <select value={value ?? ""} onChange={(event) => onChange(Number(event.target.value))}>
-            {options.map((option) => (
-              <option key={option.id} value={option.id}>
-                {option.name}
-              </option>
-            ))}
-          </select>
-          <ChevronDown size={16} />
-        </span>
+        <CustomSelect
+          ariaLabel={label}
+          icon={null}
+          value={value ?? ""}
+          options={options.map((option) => ({
+            value: option.id,
+            label: option.name,
+          }))}
+          placeholder={`Pilih ${label.toLowerCase()}...`}
+          onChange={(event) => onChange(Number(event.target.value))}
+        />
       </span>
-    </label>
+    </div>
   );
 }
 
@@ -152,9 +156,6 @@ function StatCard({ label, value, Icon, statKey }) {
 
 //digunakan untuk membuat baris tabel yang menampilkan informasi siswa, status kehadiran, dan keterangan.
 function StudentRow({ number, student, isLocked, onStatusChange, onNoteChange }) {
-  const activeOption = STATUS_OPTIONS.find((option) => option.value === student.status);
-  const StatusIcon = activeOption.Icon;
-
   return (
     <tr>
       <td className="cell-center">{number}</td>
@@ -167,20 +168,24 @@ function StudentRow({ number, student, isLocked, onStatusChange, onNoteChange })
       </td>
       <td className="cell-center">{student.kelas}</td>
       <td>
-        <div className={`status-pill status-pill-${student.status}`}>
-          <StatusIcon size={16} className="status-pill-icon" />
-          <select
-            value={student.status}
-            disabled={isLocked}
-            onChange={(event) => onStatusChange(student.siswa_kelas_id, event.target.value)}
-          >
-            {STATUS_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-          <ChevronDown size={14} className="status-pill-arrow" />
+        <div className="status-options" role="group" aria-label={`Status ${student.nama}`}>
+          {STATUS_OPTIONS.map(({ value, label, Icon }) => {
+            const isSelected = student.status === value;
+
+            return (
+              <button
+                key={value}
+                type="button"
+                className={`status-option status-option-${value}${isSelected ? " status-option-selected" : ""}`}
+                aria-pressed={isSelected}
+                disabled={isLocked}
+                onClick={() => onStatusChange(student.siswa_kelas_id, value)}
+              >
+                <Icon size={14} aria-hidden="true" />
+                {label}
+              </button>
+            );
+          })}
         </div>
       </td>
       <td>
@@ -209,6 +214,7 @@ export default function Absensi() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [saveStatus, setSaveStatus] = useState("idle");
+  const [isRekapOpen, setIsRekapOpen] = useState(false);
   const [tick, setTick] = useState(() => Date.now());
 
   const now = new Date(tick);
@@ -532,6 +538,14 @@ export default function Absensi() {
             <div className="table-actions">
               <button
                 type="button"
+                className="button-rekap"
+                onClick={() => setIsRekapOpen(true)}
+              >
+                <FileSpreadsheet size={16} />
+                Rekap & Cetak PDF
+              </button>
+              <button
+                type="button"
                 className="button-outline"
                 disabled={!isAttendanceOpen || students.length === 0}
                 onClick={handleMarkAllPresent}
@@ -611,6 +625,13 @@ export default function Absensi() {
           </div>
         </footer>
       </main>
+
+      <ModalRekapAbsensi
+        isOpen={isRekapOpen}
+        onClose={() => setIsRekapOpen(false)}
+        selectedSchedule={selectedSchedule}
+        guruId={user?.guru?.id}
+      />
     </div>
   );
 }

@@ -65,16 +65,14 @@ export default function LoginForm() {
                         <GraduationCap size={32} color="#fff" />
                     </div>
 
-                    <h2 className="login-title">
-                        Login
-                    </h2>
+                    <h2 className="login-title">LOGIN</h2>
 
                     <p className="login-subtitle">
-                        Sign your account.
+                        Silakan masuk untuk melanjutkan.
                     </p>
 
                     {error && (
-                        <div className="login-error">
+                        <div className="login-error" role="alert">
                             {error}
                         </div>
                     )}
@@ -84,42 +82,45 @@ export default function LoginForm() {
                         className="login-form"
                     >
 
-                        <p className="Email-field">
-                            Email:
-                        </p>
-
                         <div className="input-group">
+                            <label className="login-label" htmlFor="login-email">
+                                Email
+                            </label>
                             <input
+                                id="login-email"
                                 type="email"
                                 name="email"
-                                placeholder="Email"
+                                placeholder="nama@sekolah.sch.id"
                                 value={form.email}
                                 onChange={handleChange}
+                                autoComplete="username"
                                 required
                             />
                         </div>
 
-                        <p className="Email-field">
-                            Password:
-                        </p>
-
                         <div className="input-group">
+                            <label className="login-label" htmlFor="login-password">
+                                Kata sandi
+                            </label>
                             <input
+                                id="login-password"
                                 type={
                                     showPassword
                                         ? "text"
                                         : "password"
                                 }
                                 name="password"
-                                placeholder="Password"
+                                placeholder="Masukkan kata sandi"
                                 value={form.password}
                                 onChange={handleChange}
+                                autoComplete="current-password"
                                 required
                             />
 
                             <button
                                 className="toggle-btn"
                                 type="button"
+                                aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
                                 onClick={() => setShowPassword(!showPassword)}
                             >
                                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}

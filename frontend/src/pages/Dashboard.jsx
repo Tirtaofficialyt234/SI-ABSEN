@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { logout as logoutApi } from "../api/auth";
+import AdminTopbar from "../components/AdminTopbar";
 
 import {
     LayoutDashboard,
@@ -12,18 +13,17 @@ import {
     BookOpen,
     GraduationCap,
     LogOut,
-    Search,
-    Bell,
-    ChevronDown,
-    Menu,
 } from "lucide-react";
 import "./Dashboard.css";
+
+const EMPTY_NOTIFICATION_ITEMS = [];
 
 export default function Dashboard() {
     const navigate = useNavigate();
     const [dashboard, setDashboard] = useState(null);
     const [errorMsg, setErrorMsg] = useState("");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const attendanceTableRef = useRef(null);
 
     const handleLogout = async () => {
         try {
@@ -66,6 +66,14 @@ export default function Dashboard() {
         loadDashboard();
     }, [navigate]);
 
+    const notifications = dashboard?.absensi_terbaru ?? [];
+
+    const handleNotificationClick = () => {
+        attendanceTableRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    };
 
     return (
         <div className="dashboard">
@@ -142,43 +150,14 @@ export default function Dashboard() {
             {/* MAIN */}
             <main className="main-content">
 
-                {/* TOPBAR */}
-                <header className="topbar">
-
-                    <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                        <button className="menu-btn" onClick={() => setIsSidebarOpen(true)}>
-                            <Menu size={24} />
-                        </button>
-                        
-                        <div className="search-box">
-                            <Search size={19} />
-                            <input
-                                type="text"
-                                placeholder="Cari nama siswa..."
-                            />
-                        </div>
-                    </div>
-
-                    <div className="topbar-right">
-
-                        <div className="notification">
-                            <Bell size={21} />
-                            <span></span>
-                        </div>
-
-                        <div className="profile">
-                            <div className="profile-avatar">
-                                A
-                            </div>
-
-                            <span>Admin</span>
-
-                            <ChevronDown size={17} />
-                        </div>
-
-                    </div>
-
-                </header>
+                <AdminTopbar
+                    isSidebarOpen={isSidebarOpen}
+                    onToggleSidebar={() => setIsSidebarOpen((isOpen) => !isOpen)}
+                    onLogout={handleLogout}
+                    onNotificationClick={handleNotificationClick}
+                    searchPlaceholder="Cari nama siswa..."
+                    notificationItems={dashboard?.absensi_terbaru ?? EMPTY_NOTIFICATION_ITEMS}
+                />
 
 
                 {/* CONTENT */}
@@ -296,22 +275,22 @@ export default function Dashboard() {
                                 <div className="chart-line">
                                     {dashboard?.grafik_kehadiran ? (
                                         dashboard.grafik_kehadiran.map((item, index) => (
-                                            <span 
-                                                key={index} 
-                                                style={{ height: `${item.persentase}%` }} 
-                                                title={`${item.persentase}% Kehadiran`}
-                                            ></span>
+                                            <div key={index} className="chart-col">
+                                                <span className="chart-val">{item.persentase}%</span>
+                                                <div
+                                                    className="chart-bar"
+                                                    style={{ height: `${Math.max(item.persentase, 4)}%` }}
+                                                    title={`${item.hari}: ${item.persentase}% Kehadiran`}
+                                                ></div>
+                                            </div>
                                         ))
                                     ) : (
-                                        <>
-                                            <span style={{ height: "0%" }}></span>
-                                            <span style={{ height: "0%" }}></span>
-                                            <span style={{ height: "0%" }}></span>
-                                            <span style={{ height: "0%" }}></span>
-                                            <span style={{ height: "0%" }}></span>
-                                            <span style={{ height: "0%" }}></span>
-                                            <span style={{ height: "0%" }}></span>
-                                        </>
+                                        [1, 2, 3, 4, 5, 6, 7].map((i) => (
+                                            <div key={i} className="chart-col">
+                                                <span className="chart-val">0%</span>
+                                                <div className="chart-bar" style={{ height: "4%" }}></div>
+                                            </div>
+                                        ))
                                     )}
                                 </div>
 
@@ -438,7 +417,7 @@ export default function Dashboard() {
 
 
                     {/* RECENT ATTENDANCE */}
-                    <div className="dashboard-card table-card">
+                    <div className="dashboard-card table-card" ref={attendanceTableRef}>
 
                         <div className="card-header">
 
@@ -470,8 +449,8 @@ export default function Dashboard() {
 
                                 <tbody>
 
-                                    {dashboard?.absensi_terbaru?.map(
-                                        (item, index) => (
+                                    {notifications.length > 0 ? (
+                                        notifications.map((item, index) => (
 
                                             <tr key={item.id}>
 
@@ -501,7 +480,13 @@ export default function Dashboard() {
 
                                             </tr>
 
-                                        )
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="5" className="empty-table-message">
+                                                Belum ada absensi terbaru.
+                                            </td>
+                                        </tr>
                                     )}
 
                                 </tbody>

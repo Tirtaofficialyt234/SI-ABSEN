@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout as logoutApi } from "../api/auth";
 import api from "../api/axios";
+import AdminTopbar from "../components/AdminTopbar";
 import TambahMapel from "./TambahMapel";
 
 import {
@@ -16,9 +17,6 @@ import {
     BookOpen,
     LogOut,
     Trash2,
-    Bell,
-    Menu,
-    ChevronDown,
     CheckCircle2,
     Calendar,
     Layers,
@@ -159,32 +157,12 @@ export default function DataMapel() {
             </aside>
 
             <main className="main-content">
-                <header className="topbar">
-                    <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                        <button className="menu-btn" onClick={() => setIsSidebarOpen(true)}>
-                            <Menu size={24} />
-                        </button>
-                        <div className="search-box">
-                            <Search size={19} />
-                            <input
-                                type="text"
-                                placeholder="Cari di dashboard..."
-                            />
-                        </div>
-                    </div>
-
-                    <div className="topbar-right">
-                        <div className="notification">
-                            <Bell size={21} />
-                            <span></span>
-                        </div>
-                        <div className="profile">
-                            <div className="profile-avatar">A</div>
-                            <span>Admin</span>
-                            <ChevronDown size={17} />
-                        </div>
-                    </div>
-                </header>
+                <AdminTopbar
+                    isSidebarOpen={isSidebarOpen}
+                    onToggleSidebar={() => setIsSidebarOpen((isOpen) => !isOpen)}
+                    onLogout={handleLogout}
+                    searchPlaceholder="Cari nama mata pelajaran..."
+                />
 
                 <section className="mapel-content">
                     <div className="mapel-page-header">

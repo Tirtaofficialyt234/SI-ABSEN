@@ -3,14 +3,14 @@
 use App\Http\Controllers\Api\AbsensiController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\GuruController;
 use App\Http\Controllers\Api\JadwalController;
+use App\Http\Controllers\Api\KelasController;
 use App\Http\Controllers\Api\LaporanController;
+use App\Http\Controllers\Api\MapelController;
 use App\Http\Controllers\Api\MutasiSiswaController;
 use App\Http\Controllers\Api\SiswaController;
 use App\Http\Controllers\Api\TahunAjaranController;
-use App\Http\Controllers\Api\MapelController;
-use App\Http\Controllers\Api\KelasController;
-use App\Http\Controllers\Api\GuruController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -97,7 +97,6 @@ Route::middleware('auth:sanctum')->group(function () {
             'store',
         ]);
 
-
         Route::post('/siswa/{siswa}/mutasi-keluar', [
             MutasiSiswaController::class,
             'mutasiKeluar',
@@ -135,6 +134,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/guru', [GuruController::class, 'store']);
         Route::delete('/guru/{id}', [GuruController::class, 'destroy']);
 
+        Route::get('/guru/absensi/rekap/harian', [
+            LaporanController::class,
+            'rekapHarianGuru',
+        ]);
+        Route::get('/guru/absensi/rekap/bulanan', [
+            LaporanController::class,
+            'rekapBulananGuru',
+        ]);
+
     });
 
     /*
@@ -149,7 +157,6 @@ Route::middleware('auth:sanctum')->group(function () {
             DashboardController::class,
             'siswaDashboard',
         ]);
-
 
     });
 
