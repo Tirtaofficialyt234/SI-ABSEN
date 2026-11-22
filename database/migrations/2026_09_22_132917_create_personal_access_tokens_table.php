@@ -11,6 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Duplicate of 2026_08_31_121037; skip when the table already exists.
+        if (Schema::hasTable('personal_access_tokens')) {
+            return;
+        }
+
         Schema::create('personal_access_tokens', function (Blueprint $table) {
             $table->id();
             $table->morphs('tokenable');
