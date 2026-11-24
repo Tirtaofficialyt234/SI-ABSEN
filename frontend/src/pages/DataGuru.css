@@ -1,0 +1,277 @@
+/* DataGuru.css */
+
+.dg-page-header {
+    margin-bottom: 24px;
+}
+
+.dg-page-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #172b4d;
+}
+
+.dg-page-header p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: #6b7a99;
+}
+
+.dg-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e5eaf2;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.dg-search-box {
+    flex: 1;
+    min-width: 220px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 13px;
+    border: 1px solid #dfe5ef;
+    border-radius: 8px;
+    color: #9aa7bd;
+}
+
+.dg-search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 13.5px;
+    background: transparent;
+    color: #172b4d;
+}
+
+.dg-search-box input::placeholder {
+    color: #9aa7bd;
+}
+
+.dg-add-btn {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: auto;
+    transition: background 0.15s;
+    white-space: nowrap;
+}
+
+.dg-add-btn:hover {
+    background: #1d4ed8;
+}
+
+.dg-table-card {
+    background: #fff;
+    border: 1px solid #e5eaf2;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.dg-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dg-table thead {
+    background: #f7f9fc;
+}
+
+.dg-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #405273;
+    border-bottom: 1px solid #e5eaf2;
+}
+
+.dg-table td {
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: #405273;
+    border-bottom: 1px solid #edf0f5;
+    vertical-align: middle;
+}
+
+.dg-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.dg-table tbody tr:hover {
+    background: #fafcff;
+}
+
+.dg-td-no {
+    width: 52px;
+    color: #7b8aa5;
+}
+
+.dg-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dg-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.dg-name-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.dg-name-title {
+    font-weight: 600;
+    color: #172b4d;
+    font-size: 13.5px;
+}
+
+.dg-name-email {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.dg-badge-nip {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: #334155;
+    font-family: monospace;
+    font-size: 12.5px;
+}
+
+.dg-badge-jadwal {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dg-badge-jadwal--active {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.dg-badge-jadwal--inactive {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.dg-action {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dg-btn-delete {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #fef2f2;
+    color: #ef4444;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.dg-btn-delete:hover {
+    background: #fee2e2;
+}
+
+.dg-td-loading {
+    text-align: center;
+    padding: 40px !important;
+    color: #64748b;
+    font-style: italic;
+}
+
+.dg-empty-state {
+    text-align: center;
+    padding: 48px 20px;
+}
+
+.dg-empty-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+}
+
+.dg-empty-state h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    color: #1e293b;
+}
+
+.dg-empty-state p {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+@media (max-width: 768px) {
+    .dg-table-card {
+        overflow-x: auto;
+    }
+
+    .dg-table {
+        min-width: 700px;
+    }
+
+    .dg-filter-bar {
+        flex-wrap: wrap;
+    }
+
+    .dg-search-box {
+        width: 100%;
+        flex: none;
+    }
+
+    .dg-add-btn {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+}
+

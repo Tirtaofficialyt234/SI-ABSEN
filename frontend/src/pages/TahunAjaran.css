@@ -1,0 +1,240 @@
+* {
+    box-sizing: border-box;
+}
+
+.ta-content {
+    padding: 30px 28px;
+    flex: 1;
+}
+
+.ta-page-header {
+    margin-bottom: 24px;
+}
+
+.ta-page-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #172b4d;
+}
+
+.ta-page-header p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: #6b7a99;
+}
+
+.ta-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e5eaf2;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.ta-search-box {
+    flex: 1;
+    min-width: 180px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 13px;
+    border: 1px solid #dfe5ef;
+    border-radius: 8px;
+    color: #9aa7bd;
+}
+
+.ta-search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 13.5px;
+    background: transparent;
+    color: #172b4d;
+}
+
+.ta-search-box input::placeholder {
+    color: #9aa7bd;
+}
+
+.ta-add-btn {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: auto;
+    transition: background 0.15s;
+    white-space: nowrap;
+}
+
+.ta-add-btn:hover {
+    background: #1d4ed8;
+}
+
+.ta-table-card {
+    background: #fff;
+    border: 1px solid #e5eaf2;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.ta-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ta-table thead {
+    background: #f7f9fc;
+}
+
+.ta-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #405273;
+    border-bottom: 1px solid #e5eaf2;
+}
+
+.ta-table td {
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: #405273;
+    border-bottom: 1px solid #edf0f5;
+    vertical-align: middle;
+}
+
+.ta-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.ta-table tbody tr:hover {
+    background: #fafcff;
+}
+
+.ta-td-no {
+    width: 52px;
+    color: #7b8aa5;
+}
+
+.ta-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.ta-badge--aktif {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.ta-badge--nonaktif {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.ta-badge--semester {
+    background: #ede9fe;
+    color: #6d28d9;
+    text-transform: capitalize;
+}
+
+.ta-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ta-btn-aktifkan {
+    padding: 7px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ta-btn-aktifkan:hover {
+    background: #bbf7d0;
+}
+
+.ta-btn-aktifkan:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ta-btn-delete {
+    padding: 7px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #fef2f2;
+    color: #ef4444;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ta-btn-delete:hover {
+    background: #fee2e2;
+}
+
+.ta-btn-delete:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ta-td-loading {
+    text-align: center;
+    padding: 30px !important;
+    color: #64748b;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .ta-table-card {
+        overflow-x: auto;
+    }
+
+    .ta-table {
+        min-width: 600px;
+    }
+
+    .ta-filter-bar {
+        flex-wrap: wrap;
+    }
+
+    .ta-search-box {
+        width: 100%;
+        flex: none;
+    }
+
+    .ta-add-btn {
+        margin-left: 0;
+    }
+}
+

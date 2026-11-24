@@ -1,0 +1,428 @@
+/* DataKelas.css — Hanya tambahan/override yang tidak ada di Dashboard.css dan DataSiswa.css */
+
+/* Page header — identik dengan DataSiswa */
+.dk-page-header {
+    margin-bottom: 24px;
+}
+
+.dk-page-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #172b4d;
+}
+
+.dk-page-header p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: #6b7a99;
+}
+
+/* Filter bar — sama persis DataSiswa */
+.dk-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e5eaf2;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.dk-search-box {
+    flex: 1;
+    min-width: 180px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 13px;
+    border: 1px solid #dfe5ef;
+    border-radius: 8px;
+    color: #9aa7bd;
+}
+
+.dk-search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 13.5px;
+    background: transparent;
+    color: #172b4d;
+}
+
+.dk-search-box input::placeholder {
+    color: #9aa7bd;
+}
+
+/* Custom Modern Dropdown Filter */
+.dk-dropdown-wrapper {
+    position: relative;
+    user-select: none;
+}
+
+.dk-dropdown-trigger {
+    height: 42px;
+    min-width: 165px;
+    padding: 0 14px;
+    border: 1px solid #dfe5ef;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.dk-dropdown-trigger:hover {
+    border-color: #93c5fd;
+    background-color: #f8fafc;
+}
+
+.dk-dropdown-trigger--open {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    background-color: #ffffff;
+}
+
+.dk-dropdown-icon {
+    color: #2563eb;
+    flex-shrink: 0;
+}
+
+.dk-dropdown-label {
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.dk-dropdown-chevron {
+    color: #94a3b8;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.dk-dropdown-chevron--rotate {
+    transform: rotate(180deg);
+    color: #2563eb;
+}
+
+.dk-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 100%;
+    width: max-content;
+    max-width: 240px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.06);
+    padding: 6px;
+    z-index: 100;
+    max-height: 250px;
+    overflow-y: auto;
+    animation: dkDropdownFadeIn 0.15s ease-out;
+}
+
+@keyframes dkDropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dk-dropdown-item {
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 7px;
+    background: transparent;
+    color: #475569;
+    font-size: 13.5px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    transition: all 0.15s ease;
+}
+
+.dk-dropdown-item:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.dk-dropdown-item--selected {
+    background: #eff6ff !important;
+    color: #2563eb !important;
+    font-weight: 600;
+}
+
+.dk-dropdown-check {
+    color: #2563eb;
+    flex-shrink: 0;
+}
+
+.dk-filter-select {
+    height: 42px;
+    min-width: 150px;
+    padding: 0 14px;
+    border: 1px solid #dfe5ef;
+    border-radius: 8px;
+    background: #fff;
+    color: #405273;
+    font-size: 13.5px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.dk-filter-select:hover,
+.dk-filter-select:focus {
+    border-color: #2563eb;
+}
+
+.dk-add-btn {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: auto;
+    transition: background 0.15s;
+    white-space: nowrap;
+}
+
+.dk-add-btn:hover {
+    background: #1d4ed8;
+}
+
+/* Table card — sama persis DataSiswa */
+.dk-table-card {
+    background: #fff;
+    border: 1px solid #e5eaf2;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.dk-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dk-table thead {
+    background: #f7f9fc;
+}
+
+.dk-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #405273;
+    border-bottom: 1px solid #e5eaf2;
+}
+
+.dk-table td {
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: #405273;
+    border-bottom: 1px solid #edf0f5;
+    vertical-align: middle;
+}
+
+.dk-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.dk-table tbody tr:hover {
+    background: #fafcff;
+}
+
+.dk-td-no {
+    width: 52px;
+    color: #7b8aa5;
+}
+
+/* Kelas name cell with icon */
+.dk-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.dk-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.dk-name-title {
+    font-weight: 600;
+    color: #172b4d;
+    font-size: 13.5px;
+}
+
+/* Tingkat badges */
+.dk-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dk-badge--10 {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.dk-badge--11 {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.dk-badge--12 {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+/* Siswa count */
+.dk-siswa-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #405273;
+    font-weight: 500;
+}
+
+/* Action buttons */
+.dk-action {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dk-btn-delete {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #fef2f2;
+    color: #ef4444;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.dk-btn-delete:hover {
+    background: #fee2e2;
+}
+
+/* Loading & empty */
+.dk-td-loading {
+    text-align: center;
+    padding: 40px !important;
+    color: #64748b;
+    font-style: italic;
+}
+
+.dk-empty-state {
+    text-align: center;
+    padding: 48px 20px;
+}
+
+.dk-empty-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+}
+
+.dk-empty-state h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    color: #1e293b;
+}
+
+.dk-empty-state p {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* Stats grid override — gunakan stats-grid dari Dashboard.css,
+   tambahan hanya jika ada perubahan grid di mobile */
+@media (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dk-table-card {
+        overflow-x: auto;
+    }
+
+    .dk-table {
+        min-width: 680px;
+    }
+
+    .dk-filter-bar {
+        flex-wrap: wrap;
+    }
+
+    .dk-search-box {
+        width: 100%;
+        flex: none;
+    }
+
+    .dk-add-btn {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+}
